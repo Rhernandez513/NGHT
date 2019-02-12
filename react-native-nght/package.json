@@ -1,0 +1,32 @@
+{
+  "name": "RNNghtApp",
+  "description": "NGHT App written in JSX using React Native",
+  "version": "0.3.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "crypto-js": "https://github.com/NGHTCREATION/crypto-js.git",
+    "navbar-native": "https://github.com/NGHTCREATION/navbar-native.git",
+    "react": "^15.4.2",
+    "react-native": "^0.42.0",
+    "react-native-awesome-card-io": "https://github.com/NGHTCREATION/react-native-awesome-card-io.git",
+    "react-native-collapsible": "https://github.com/NGHTCREATION/react-native-collapsible.git",
+    "react-native-elements": "https://github.com/NGHTCREATION/react-native-elements.git",
+    "react-native-facebook-login": "https://github.com/NGHTCREATION/react-native-facebook-login.git",
+    "react-native-fbsdk": "https://github.com/NGHTCREATION/react-native-fbsdk.git",
+    "react-native-maps": "https://github.com/NGHTCREATION/react-native-maps.git",
+    "react-native-side-menu": "https://github.com/NGHTCREATION/react-native-side-menu.git",
+    "react-native-textinput-effects": "https://github.com/NGHTCREATION/react-native-textinput-effects.git",
+    "react-native-vector-icons": "https://github.com/NGHTCREATION/react-native-vector-icons.git",
+    "react-redux": "https://github.com/NGHTCREATION/react-redux.git",
+    "redis": "https://github.com/NGHTCREATION/node_redis.git",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.8.2",
+    "redux-persist": "^4.0.0-alpha6",
+    "uuid": "https://github.com/NGHTCREATION/node-uuid.git"
+  },
+  "engine": "7.7.1",
+  "main": "main.js"
+}

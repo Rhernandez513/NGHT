@@ -1,0 +1,139 @@
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-service
+# services:
+#   - mysql:latest
+#   - redis:latest
+#   - postgres:latest
+
+stages:
+  - test
+#  - test_async
+#  - pre-flight
+  - build
+#  - deploy
+
+# test_async:
+#   script:
+#    - npm install
+#    - node ./specs/start.js ./specs/async.spec.js
+
+# test_db:
+#  script:
+#   - npm install
+#   - node ./specs/start.js ./specs/db-postgres.spec.js
+  
+test:
+   stage: test
+   script:
+   - echo "Running Imaginary tests"
+
+build:
+  stage: build
+  only:
+    - master
+  script:
+    - echo "Setting up the host"
+    - sudo apt update -yqq
+    - sudo apt upgrade -yqq
+    - sudo apt install -y default-jre default-jdk unzip unp aapt
+    
+    # Add 32 bit arch support for aapt
+    - sudo dpkg --add-architecture i386
+    - sudo apt update
+    - sudo apt install -y libbz2-1.0:i386
+    
+    # More aapt stuff
+    - sudo apt install -y lib32gcc1 libc6-i386 lib32z1 lib32stdc++6 lib32ncurses5 lib32gomp1 lib32z1-dev
+    
+    # - sudo rm -rf /sdk
+    # - sudo mkdir -p /sdk/
+    - sudo chown -R $USER:$USER /sdk
+    
+    # Just did this manually, for some reason it doesn't recognize the inflated dir
+    # - wget -O /sdk/android-sdk-linux.zip https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+    # - unp /sdk/android-sdk-linux.zip
+    # - rm /sdk/android-sdk-linux.zip
+    
+    - echo y | /sdk/tools/bin/sdkmanager "platforms;android-25"
+    - /sdk/tools/bin/sdkmanager "extras;android;m2repository"
+    - /sdk/tools/bin/sdkmanager "ndk-bundle"
+    
+    # Set $ANDROID_HOME
+    - export ANDROID_HOME="/sdk/"
+    - export PATH=${PATH}:/sdk/platforms/android-25:/sdk/tools
+    - echo y | /sdk/tools/bin/sdkmanager --update
+    
+    # Android SDK Dir
+    - echo "sdk.dir=/sdk/" > android/local.properties
+
+    # Copy Release Signing Key
+    - cp /sdk/nght-ci-release.keystore android/app/nght-ci.keystore
+    
+    # NVM
+    - echo "Installing NVM"
+    - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+    - export NVM_DIR="$HOME/.nvm"
+    - . "$NVM_DIR/nvm.sh"  # This loads nvm
+    - echo "Installing NPM"
+    - nvm install 7.7.1
+    - nvm use 7.7.1
+    
+    # Yarn
+    - echo "Install Yarn"
+    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    - sudo apt update -yqq && sudo apt install -yqq yarn
+    
+    # React Native CLI
+    - echo "Installing React-Native CLI"
+    - npm install -g react-native-cli
+    - echo "Installing NPM dependencies"
+
+    # Install node_modules
+    - npm install spawn-sync --ignore-scripts --save
+    - yarn
+    
+    # Fix RN Dependency SDK Versions
+    - ./gl-bot.py fix-btv
+    
+    # build
+    - echo "Building App"
+    
+    # Need to have an emulator running in order for this one to work
+    # - react-native run-android
+
+    - export LOCALPACKAGER="http://localhost:8081/index.android.bundle?platform=android"
+    - export OUTPUTARTIFACT="android/app/src/main/assets/index.android.bundle"
+
+    ####################################
+    # UNCOMMENT TO RUN Non-Interactively
+    - nohup sh -c "react-native start" &
+    - PACKAGER_PID=$!
+    - echo "Packager PID=$PACKAGER_PID"
+    - sleep 15
+    # UNCOMMENT TO RUN Non-Interactively
+    ####################################
+    
+    - curl $LOCALPACKAGER -o $OUTPUTARTIFACT
+    - (cd android/ && ./gradlew assembleRelease)
+    
+    # - ./buildAndroidAPK.sh
+    - sudo kill -9 "$PACKAGER_PID"
+    - ./gl-bot.py deploy
+    - sudo reboot
+    # - exit 0
+
+# deploy_staging:
+#   stage: deploy
+#   script:
+#     - echo "Deploy to Appetize and Archive to MEGA"
+#     - ./gl-bot.py deploy
+#   environment:
+#     name: staging
+#    url: https://staging.example.com
+#    only:
+#      - master
+
+
+# EOF

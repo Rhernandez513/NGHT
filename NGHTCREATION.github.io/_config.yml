@@ -1,0 +1,121 @@
+url: http://www.nght.io
+baseurl:
+
+# Site settings
+title: NGHT
+email: info@nght.io
+description: "Welcome to NGHT!"
+
+
+# Team names, titles and social links
+people:
+- name: Joaquin Davalos
+  pic: 1
+  position: Co-founder
+  #social:
+  #  - title: LinkedIn
+  #    url: #
+  #  - title: google-plus
+  #    url: #
+
+- name: Juan Pablo Ortiz
+  pic: 7
+  position: Co-founder
+  #social:
+  #  - title: LinkedIn
+  #    url: #
+#    - title: facebook
+#      url: #
+#    - title: google-plus
+#      url: #
+
+- name: Jose Samaniego
+  pic: 2
+  position: Head of Marketing
+  #social:
+  #  - title: LinkedIn
+  #   url: #
+  #  - title: facebook
+  #    url: #
+  #  - title: google-plus
+  #    url: #
+
+- name: Manuel Kakabadse
+  pic: 3
+  position: Head of Product & Growth
+  #social:
+  #  - title: LinkedIn
+  #    url: #
+  #  - title: facebook
+  #    url: #
+  #  - title: google-plus
+  #    url: #
+
+- name: Robert David Hernandez
+  pic: 4
+  position: CTO
+  social:
+    - title: twitter
+      url: http://twitter.com/ronarr513
+  #   - title: facebook
+  #     url: #
+  #   - title: stack-overflow
+  #     url: #
+
+- name: Andrew Phillips
+  pic: 5
+  position: Lead Android Software Engineer
+  # social:
+  #   - title: twitter
+  #     url: #
+  #   - title: facebook
+  #     url: #
+  #   - title: stack-overflow
+  #     url: #
+
+- name: Christopher Hernandez
+  pic: 6
+  position: Lead iOS Software Engineer
+  # social:
+  #   - title: twitter
+  #     url: #
+  #   - title: facebook
+  #     url: #
+  #   - title: stack-overflow
+  #     url: #
+
+- name: Ramel Mesinovic
+  pic: 8
+  position: Vice President of Software Quality
+  # social:
+  #   - title: twitter
+  #     url: #
+  #   - title: facebook
+  #     url: #
+  #   - title: stack-overflow
+  #     url: #
+
+# Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
+social:
+  - title: twitter
+    url: http://twitter.com/nghtapp
+
+  - title: facebook
+    url:
+  # - title: facebook
+  #   url:
+  # - title: stack-overflow
+  #   url: http://stackoverflow.com/questions/tagged/jekyll
+  # - title: bitbucket
+  #   url: http://bitbucket.org/jekyll
+  - title: github
+    url: http://github.com/NGHTCREATION
+
+# Postal address (add as many lines as necessary)
+address:
+  - line: 3481 Melrose Place
+  - line: Beverly Hills, CA 90210
+
+# Build settings
+markdown: kramdown
+permalink: pretty
